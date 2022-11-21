@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+    this.status = localStorage.getItem('SUCCESS_KEY');
   }
 login(){
     this.signInForm = new SignInForm(
@@ -33,6 +34,7 @@ login(){
         this.tokenService.setName(data.name);
         this.tokenService.setAvatar(data.avatar);
         this.tokenService.setRole(data.roles);
+        localStorage.removeItem('SUCCESS_KEY')
         // @ts-ignore
         this.router.navigate(['home']).then(()=>{
           location.reload();

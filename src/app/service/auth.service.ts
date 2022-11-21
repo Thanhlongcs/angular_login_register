@@ -10,8 +10,12 @@ import {SignInForm} from '../model/signInForm';
   providedIn: 'root'
 })
 export class AuthService {
-  private API_SIGNUP = environment.API_LOCAL + 'signup';
-  private API_SIGNIN = environment.API_LOCAL + 'signin';
+
+  // private API_SIGNUP = environment.API_LOCAL + 'signup';
+  // private API_SIGNIN = environment.API_LOCAL + 'signin';
+  private API_SIGNUP = environment.API_SERVE + 'signup';
+   private API_SIGNIN = environment.API_SERVE + 'signin';
+
   constructor(private http: HttpClient) {
   }
 

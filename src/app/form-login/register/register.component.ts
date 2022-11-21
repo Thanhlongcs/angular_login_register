@@ -44,6 +44,7 @@ register(){
       }
       if (data.message === 'yes') {
         this.status = 'create account success';
+        localStorage.setItem('SUCCESS_KEY', this.status)
         this.router.navigate(['login']).then(()=>{
           location.reload();
         });
