@@ -20,10 +20,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('check---------->', localStorage.getItem('SUCCESS_KEY'));
-    if (localStorage.getItem('SUCCESS_KEY') != null) {
-      this.status = localStorage.getItem('SUCCESS_KEY');
-    } else {
-      this.status = 'Đăng nhập thất bại!';
+    if (localStorage.getItem('SUCCESS_KEY')!=null){
+      this.status = localStorage.getItem('SUCCESS_KEY')
+    }else {
+      this.status = 'Please fill in the form to login!'
     }
   }
 login(){
