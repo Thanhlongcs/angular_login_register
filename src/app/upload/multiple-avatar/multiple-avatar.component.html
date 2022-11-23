@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12" style="margin-top:20px">
+            <mat-card style="margin: 50px">
+                <mat-progress-bar *ngIf="checkUploadMultiple" mode="indeterminate"></mat-progress-bar>
+                <input type="file" (change)="uploadMultipleFile($event)" multiple>
+                <button *ngIf="arrUrlFromFileBase.length?!selectFile:selectFile" (click)="upload()">upload
+                </button>
+               <div class="row" *ngIf="arrUrlFromFileBase.length">
+                   <div class="column" *ngFor="let item of arrUrlFromFileBase">
+                       <img class="card"  src="{{item}}" alt="">
+                   </div>
+               </div>
+
+            </mat-card>
+        </div>
+    </div>
+</div>

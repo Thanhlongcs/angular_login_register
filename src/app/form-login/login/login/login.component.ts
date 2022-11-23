@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SignInForm} from '../../../model/signInForm';
 import {AuthService} from '../../../service/auth.service';
 import {TokenService} from '../../../service/token.service';
@@ -14,19 +14,22 @@ export class LoginComponent implements OnInit {
   hide = true;
   signInForm: SignInForm;
   status = 'please in the form to login';
+
   constructor(private authService: AuthService,
               private tokenService: TokenService,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit(): void {
     console.log('check---------->', localStorage.getItem('SUCCESS_KEY'));
-    if (localStorage.getItem('SUCCESS_KEY')!=null){
-      this.status = localStorage.getItem('SUCCESS_KEY')
-    }else {
-      this.status = 'Please fill in the form to login!'
+    if (localStorage.getItem('SUCCESS_KEY') != null) {
+      this.status = localStorage.getItem('SUCCESS_KEY');
+    } else {
+      this.status = 'Please fill in the form to login!';
     }
   }
-login(){
+
+  login() {
     this.signInForm = new SignInForm(
       this.form.username,
       this.form.password
@@ -34,22 +37,22 @@ login(){
     this.authService.signIn(this.signInForm).subscribe(data => {
       console.log('data---->', data);
 
-      if (data.token != undefined){
+      if (data.token != undefined) {
         this.tokenService.setToken(data.token);
         this.tokenService.setName(data.name);
         this.tokenService.setAvatar(data.avatar);
         this.tokenService.setRole(data.roles);
-        localStorage.removeItem('SUCCESS_KEY')
+        localStorage.removeItem('SUCCESS_KEY');
         // @ts-ignore
-        this.router.navigate(['home']).then(()=>{
+        this.router.navigate(['home']).then(() => {
           location.reload();
         });
       }
       // @ts-ignore
       // tslint:disable-next-line:triple-equals
-      if (data.status == 202){
-       this.status = 'login failed';
+      if (data.status == 202) {
+        this.status = 'login failed';
       }
     });
-}
+  }
 }

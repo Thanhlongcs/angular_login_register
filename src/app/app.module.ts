@@ -15,7 +15,7 @@ import {MatCardModule} from '@angular/material/card';
 import {HomeComponent} from './pages/home/home.component';
 import {GettingStartedComponent} from './pages/gettingstarted/gettingstarted.component';
 
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgxAudioPlayerModule} from 'projects/ngx-audio-player/src/public_api';
 import {MatButtonModule} from '@angular/material/button';
 
@@ -26,6 +26,24 @@ import {MatInputModule} from '@angular/material/input';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './form-login/login/login/login.component';
 import { ProfileComponent } from './form-login/profile/profile/profile.component';
+import { ParentInputComponent } from './input/parent-input/parent-input.component';
+import { ChildInputComponent } from './input/child-input/child-input.component';
+import { OutputChildComponent } from './output/output-child/output-child.component';
+import { ParentOutputComponent } from './output/parent-output/parent-output.component';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {environment} from '../environments/environment.prod';
+import { UploadAvatarComponent } from './upload/upload-avatar/upload-avatar.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+// @ts-ignore
+import {AngularFireModule} from '@angular/fire';
+import { MultipleAvatarComponent } from './upload/multiple-avatar/multiple-avatar.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {AuthInterceptor} from './service/auth.interceptor';
+import { UpdateAvatarComponent } from './form-login/profile/update-avatar/update-avatar.component';
+import * as path from 'path';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DialogComponent } from './dialog/dialog/dialog.component';
+
 
 
 export const appRoutes: Routes = [
@@ -38,11 +56,14 @@ export const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'profile', component: ProfileComponent}
+  {path: 'profile', component: ProfileComponent,
+  children:[
+    {path:'update/avatar', component:UpdateAvatarComponent}
+  ]}
 ];
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, GettingStartedComponent, RegisterComponent, LoginComponent, ProfileComponent],
+  declarations: [AppComponent, HomeComponent, GettingStartedComponent, RegisterComponent, LoginComponent, ProfileComponent, ParentInputComponent, ChildInputComponent, OutputChildComponent, ParentOutputComponent, UploadAvatarComponent, MultipleAvatarComponent, UpdateAvatarComponent, DialogComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -57,9 +78,14 @@ export const appRoutes: Routes = [
     BrowserAnimationsModule,
     NavBarModule, FooterModule,
     NgxAudioPlayerModule,
-    RouterModule.forRoot(appRoutes, {useHash: false}), FormsModule, ReactiveFormsModule
+    AngularFireStorageModule,
+    MatDialogModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    RouterModule.forRoot(appRoutes, {useHash: false}), FormsModule, ReactiveFormsModule, MatProgressSpinnerModule, MatProgressBarModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS,useClass:AuthInterceptor, multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
